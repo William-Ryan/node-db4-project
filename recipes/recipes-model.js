@@ -7,12 +7,13 @@ module.exports = {
 }
 
 function getRecipes(){
-    return db('recipes')
+    return db('recipes as r')
+    .select('r.recipe_name as recipe', )
 }
 
 function getShoppingList(id){
     return db('recipes as r')
-    .select('r.recipe_name as recipe, i.ingredient, i.measurement')
+    .select('r.recipe_name as recipe', 'i.ingredient', 'i.measurement')
     .join('recipe_ingredients as ri', 'r.id', '=', 'ri.recipe_id')
     .join('ingredients as i', 'i.id', '=', 'ri.ingredient_id')
     .where(id)
@@ -20,6 +21,6 @@ function getShoppingList(id){
 
 function getInstructions(id){
     return db('recipes as r')
-    .select('r.recipe_name as recipe, r.steps')
+    .select('r.recipe_name as recipe', 'r.steps')
     .where(id)
 }
